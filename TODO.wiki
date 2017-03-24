@@ -1,0 +1,17 @@
+ = Archives to translate to cpp =
+
+	* [ ] ConfigData.java
+	* [ ] ConfigurationFile.txt
+	* [X] EnergyValue.java
+	* [ ] Escritura.java
+	* [ ] InputData.java
+	* [ ] InputData.txt
+	* [ ] Lectura.java
+	* [ ] LennarJones.java
+	* [ ] Mensaje.java
+	* [ ] Menu.java
+	* [ ] Particle.java
+	* [ ] PMS.java
+	* [X] R3.java
+	* [ ] SimulationGUI.java
+	* [ ] State.java
