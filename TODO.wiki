@@ -10,7 +10,7 @@
 	* [ ] LennarJones.java
 	* [ ] Mensaje.java
 	* [ ] Menu.java
-	* [ ] Particle.java
+	* [X] Particle.java
 	* [ ] PMS.java
 	* [X] R3.java
 	* [ ] SimulationGUI.java

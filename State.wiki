@@ -1,0 +1,34 @@
+= State class description =
+
+== Attributes ==
+
+	* seed (int)
+	* energy (EnergyValue[2D])
+	* max_displacement (double)
+	* L (double)
+	* sampleScope (Set <Particle>)
+	* particle (List <Particle>)
+	* sampleParticle (Set<Particle>)
+	* numberReCalculateNeighbourList (int)
+	* numParticles (int)
+
+== Methods ==
+	
+	* setEnergy
+	* getEnergy
+	* setMax_displacement
+	* getMax_displacement
+	* setL
+	* getL
+	* getSampleScope
+	* takeSampleInScope
+	* getParticle
+	* getSampleParticle
+	* Init
+	* ranf
+	* gauss
+	* calculateNeighbourList
+	* takeSample
+	* bind
+	* nextStep
+	* lennarJonesForcesAndU
