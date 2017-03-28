@@ -19,6 +19,7 @@ class Particle
 		void velocity(R3 newVel);
 		void acceleration(R3 newAcc);
 		void vecinity(vector<Particle> newNeighbours);
+		void clearVecinity();
 		/* Not sure if needed
 		void position(double posX, double posY,double posZ);
 		void velocity(double velX, double velY,double velZ);
