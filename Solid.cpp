@@ -25,3 +25,23 @@ Solid::calculateNeighbours()
 	{// Last particle does not have neighbours as its already a neighbour of all possible
 		iParticle = particleSet[i];
 		iParticle->clearVecinity();
+		for (int j = i+1; j < particleSet.size(); j++)
+		{ // All particles nor already checked
+			Particle * jParticle = * particleSet[j];
+			// Calculate distances
+			dist_x = iParticle->position()->x() - jParticle->position()->x();
+			dist_y = iParticle->position()->y() - jParticle->position()->y();
+			dist_z = iParticle->position()->z() - jParticle->position()->z();
+			// BC, no-edges
+			dist_y = dist_y - L * std::floor(dist_y/L);
+			dist_y = dist_x - L * std::floor(dist_x/L);
+			dist_z = dist_z - L * std::floor(dist_z/L);
+			
+			distSqrt = dist_x*dist_x + dist_y*dist_y + dist_z*dist_z;
+			if(distSqrt < radiusSqrt)
+			{
+				iParticle->vecinity()->append(jParticle);
+			}
+		}
+	}
+}	
