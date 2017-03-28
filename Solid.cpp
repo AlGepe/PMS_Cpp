@@ -10,10 +10,7 @@ Solid::calculateNeighbours()
 {
 	// Create necessary variables
 	Particle iParticle;
-	double pos_xi = .0,
-				 pos_yi = .0,
-				 pos_zi = .0,
-				 dist_x = .0,
+	double dist_x = .0,
 				 dist_y = .0,
 				 dist_z = .0,
 				 distSqrt = .0,
@@ -39,7 +36,7 @@ Solid::calculateNeighbours()
 			
 			distSqrt = dist_x*dist_x + dist_y*dist_y + dist_z*dist_z;
 			if(distSqrt < radiusSqrt)
-			{
+			{// If closer than cut-off + margin, it's neighbour
 				iParticle->vecinity()->append(jParticle);
 			}
 		}
