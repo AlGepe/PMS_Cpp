@@ -3,8 +3,7 @@
 EneryValue::EneryValue(double u, double k) :
 	_u(u),
 	_k(k)
-{
-}
+{}
 
 /*
  * Setters
