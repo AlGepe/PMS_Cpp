@@ -2,11 +2,22 @@
 
 // Constructor
 R3::R3(double _x, double _y, double _z) :
-
 	_x(x), 
 	_y(y),
 	_z(z)
 {
+}
+
+R3 R3::operator + (R3 toAdd)
+{
+  R3 result(_x + toAdd.x(), _y + toAdd.y(),  _z + toAdd.z());
+	return result;
+}
+
+R3 R3::operator - (R3 toAdd)
+{
+  R3 result(_x - toAdd.x(), _y - toAdd.y(),  _z - toAdd.z());
+	return result;
 }
 
 // Copy constructor
@@ -16,6 +27,7 @@ R3::R3(R3& sourceObject)
 	_y = sourceObject.y();
   _z = sourceObject.z();
 }
+
 
 /*
  * Getters

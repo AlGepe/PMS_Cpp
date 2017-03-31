@@ -17,8 +17,14 @@ class R3 {
 		void y(double newY);
 		void z(double newZ);
 
-		//Constructor
+		//Copy
 		R3 (R3& sourceObject);
 		// Copy Constructor
-		R3 (double x = .0, double y = .0, double _z);
+		R3 (double x = .0, double y = .0, double z = .0);
+
+		// Operators
+		R3 operator + (R3 toAdd);
+		R3 operator += (R3 toAdd);
+		R3 operator - (R3 toSubstract);
+		R3 operator -= (R3 toSubstract);
 }
