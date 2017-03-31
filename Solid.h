@@ -15,14 +15,15 @@ class Solid{
 	public:
 		//Constructor
 		Solid();
-		Init();
-		ranf();
-		gauss();
-		calculateNeighbours();
-		takeSample();
-		bind();
-		nexStep();
-		lennardJonesValues();
+
+		void Init();
+		void ranf();
+		void gauss();
+		void calculateNeighbours();
+		void takeSample();
+		double bind();
+		void nexStep(LennarJones f);
+		void lennardJonesValues(LennarJones f);
 		//setters
 		int numParticles();
 		int numbRecalcNeigh();

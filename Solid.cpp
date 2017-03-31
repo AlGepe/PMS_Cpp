@@ -58,11 +58,11 @@ Solid::bring2solid(double x)
 
 Solid::gauss()
 {
-	double a1=3.949846138,
-				 a3=0.252408784,
-				 a5=0.076542912,
-				 a7=0.008355968,
-				 a9=0.029899776,
+	double a1 = 3.949846138,
+				 a3 = 0.252408784,
+				 a5 = 0.076542912,
+				 a7 = 0.008355968,
+				 a9 = 0.029899776,
 				 sum = .0,
 				 r,
 				 r2;
@@ -74,9 +74,9 @@ Solid::gauss()
 
 Solid::ranf()
 {//Until random function from library used
-	int l=1029, 
-			c=221591,
-			m=1048576;
+	int l = 1029, 
+			c = 221591,
+			m = 1048576;
 	seed = (seed*l+c)%m;
 	return std::floor (seed/m);
 }
@@ -101,14 +101,100 @@ Solid::nexStep(LennarJones f)
 		{ 
 			maxDisplacement = displacement; 
 		}
+	
 
 		R3 tempVector(tempX, tempY, tempZ);
 		particle.position(newPositions);
+	
 
 		tempX = particle.velocitempY().x() + .5 particle.acceleration.x();
 		tempY = particle.velocitempY().y() + .5 particle.acceleration.y();
 		tempZ = particle.velocitempY().z() + .5 particle.acceleration.z();
-		particle.velocitempY(R3 newVelocities(tempX, tempY, tempZ);
-				}
-				}
-				}
+	
+		particle.velocitempY(R3 newVelocities(tempX, tempY, tempZ));
+	}
+}
+
+Solid::lennardJonesValues(LennarJones f)
+{
+	double u = 0,
+				 sigma = InputData.sigma,
+         fourepsilon = 4.0*InputData.epsilon,
+         rc = sigma*ConfigData.rC,
+         m = InputData.mass,
+         src = sigma/rc,
+         src2 = src*src,
+         src6 = src2*src2*src2,
+         //Potential at the cut off radious
+         vc = fourepsilon*(src6*src6-src6),
+         // Derivative of the potential at the cut off radious
+         vr_discontinuity = 6.0*fourepsilon/rc*(2.0*src6*src6-src6),
+         distx,
+         disty,
+         distz,
+         distx2,
+         disty2,
+         distz2,
+         distr,
+         distr2,
+         sr2,
+         sr6,
+         fr = 0.0,
+         frij = 0.0,
+         v = 0.0, //
+         vij,
+         fx,
+         fy,
+         fz,
+         counts = 0;
+	for (auto p : particleSet) p.acceleration(R3 zero(0,0,0));
+	boolean onlyfirstp = true;
+	for (auto p	: particleSet)
+	{
+		for (auto q : p.vecinity())
+		{
+			distx = p.position().x()-q.position().x();
+			disty = p.position().y()-q.position().y();
+			distz = p.position().z()-q.position().z();
+
+			// BC "infinite" lattice
+			distx = distx-L*std::floor(distx/L);
+			disty = disty-L*std::floor(disty/L);
+			distz = distz-L*std::floor(distz/L);
+			
+			distx2 = distx*distx;
+			disty2 = disty*disty;
+			distz2 = distz*distz;
+
+			// Euclidian distance
+			distr2 = distx2 + disty2 + distz2;
+			distr =MATHSQRT(distr2);
+
+
+					 //Not all of the particles in the vecinity list are in a distance less or iqual to rc but, if I do the condition, most of the U values are zero. UNITS?
+					 //if(distr <= rc)
+					sr2 = sigma * sigma / distr2;
+					sr6 = sr2 * sr2 * sr2;
+
+					vij = fourepsilon * (sr6 * sr6-sr6);
+					if(onlyfirstp) f.register(distr, vij);
+					v += vij;
+					frij = 6.*fourepsilon * (2.*sr6*sr6-sr6);
+					fr=frij/distr2;
+					fx=fr*distx;
+					fy=fr*disty;
+					fz=fr*distz;
+					p.a.x+=fx/m;
+					p.a.y+=fy/m;
+					p.a.z+=fz/m;
+					q.a.x-=fx/m;
+					q.a.y-=fy/m;
+					q.a.z-=fz/m;
+					counts++;
+					u = v + vr_discontinuity*(distr-rc);
+					// end if distr<=rc
+		}
+		onlyfirstp = false;
+	}
+	energy.u(v-vc*counts)/particleSet.size();
+}
