@@ -1,12 +1,18 @@
 #include <Particle.h>
 
 Particle::Particle():
-	_position = new R3(),
-	_velocity = new R3(),
-	_acceleration = new R3(),
-	_vecinity
+	_position = new R3(.0, .0, .0),
+	_velocity = new R3(.0, .0, .0),
+	_acceleration = new R3(.0, .0, .0),
+	//_vecinity
 {}
 
+Particle::Particle(R3 position, R3 velocity, R3 acceleration):
+	_position(position),
+	_velocity(velocity),
+	_acceleration(acceleration),
+	//_vecinity
+{}
 
 // should take 5mind to errradicate this aberration
 Particle::clearVecinity()

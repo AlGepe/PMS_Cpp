@@ -14,6 +14,7 @@ class Particle
 	
 	public:
 		Particle();
+		Particle(R3 position, R3 velocity, R3 acceleration);
 		//setters
 		void position(R3 newPos);
 		void velocity(R3 newVel);
