@@ -20,7 +20,7 @@
 				* [X] ranf
 				* [X] nextStep
 				* [X] bind
-				* [ ] LennardJones
+				* [X] LennardJones
 				* [ ] takeSample
 				* [ ] Init
 				* [ ] getSampleParticle

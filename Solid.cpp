@@ -101,17 +101,14 @@ Solid::nexStep(LennarJones f)
 		{ 
 			maxDisplacement = displacement; 
 		}
-	
 
-		R3 tempVector(tempX, tempY, tempZ);
-		particle.position(newPositions);
-	
+		particle.position(R3 newPositions(tempX, tempY, tempZ);
 
 		tempX = particle.velocitempY().x() + .5 particle.acceleration.x();
 		tempY = particle.velocitempY().y() + .5 particle.acceleration.y();
 		tempZ = particle.velocitempY().z() + .5 particle.acceleration.z();
 	
-		particle.velocitempY(R3 newVelocities(tempX, tempY, tempZ));
+		particle.velocity(R3 newVelocities(tempX, tempY, tempZ));
 	}
 }
 
@@ -119,34 +116,34 @@ Solid::lennardJonesValues(LennarJones f)
 {
 	double u = 0,
 				 sigma = InputData.sigma,
-         fourepsilon = 4.0*InputData.epsilon,
-         rc = sigma*ConfigData.rC,
-         m = InputData.mass,
-         src = sigma/rc,
-         src2 = src*src,
-         src6 = src2*src2*src2,
-         //Potential at the cut off radious
-         vc = fourepsilon*(src6*src6-src6),
-         // Derivative of the potential at the cut off radious
-         vr_discontinuity = 6.0*fourepsilon/rc*(2.0*src6*src6-src6),
-         distx,
-         disty,
-         distz,
-         distx2,
-         disty2,
-         distz2,
-         distr,
-         distr2,
-         sr2,
-         sr6,
-         fr = 0.0,
-         frij = 0.0,
-         v = 0.0, //
-         vij,
-         fx,
-         fy,
-         fz,
-         counts = 0;
+				 fourepsilon = 4.0*InputData.epsilon,
+				 rc = sigma*ConfigData.rC,
+				 m = InputData.mass,
+				 src = sigma/rc,
+				 src2 = src*src,
+				 src6 = src2*src2*src2,
+				 //Potential at the cut off radious
+				 vc = fourepsilon*(src6*src6-src6),
+				 // Derivative of the potential at the cut off radious
+				 vr_discontinuity = 6.0*fourepsilon/rc*(2.0*src6*src6-src6),
+				 distx,
+				 disty,
+				 distz,
+				 distx2,
+				 disty2,
+				 distz2,
+				 distr,
+				 distr2,
+				 sr2,
+				 sr6,
+				 fr = 0.0,
+				 frij = 0.0,
+				 v = 0.0, //
+				 vij,
+				 fx,
+				 fy,
+				 fz,
+				 counts = 0;
 	for (auto p : particleSet) p.acceleration(R3 zero(0,0,0));
 	boolean onlyfirstp = true;
 	for (auto p	: particleSet)
@@ -161,7 +158,7 @@ Solid::lennardJonesValues(LennarJones f)
 			distx = distx-L*std::floor(distx/L);
 			disty = disty-L*std::floor(disty/L);
 			distz = distz-L*std::floor(distz/L);
-			
+
 			distx2 = distx*distx;
 			disty2 = disty*disty;
 			distz2 = distz*distz;
@@ -171,28 +168,24 @@ Solid::lennardJonesValues(LennarJones f)
 			distr =MATHSQRT(distr2);
 
 
-					 //Not all of the particles in the vecinity list are in a distance less or iqual to rc but, if I do the condition, most of the U values are zero. UNITS?
-					 //if(distr <= rc)
-					sr2 = sigma * sigma / distr2;
-					sr6 = sr2 * sr2 * sr2;
+			//Not all of the particles in the vecinity list are in a distance less or iqual to rc but, if I do the condition, most of the U values are zero. UNITS?
+			//if(distr <= rc)
+			sr2 = sigma * sigma / distr2;
+			sr6 = sr2 * sr2 * sr2;
 
-					vij = fourepsilon * (sr6 * sr6-sr6);
-					if(onlyfirstp) f.register(distr, vij);
-					v += vij;
-					frij = 6.*fourepsilon * (2.*sr6*sr6-sr6);
-					fr=frij/distr2;
-					fx=fr*distx;
-					fy=fr*disty;
-					fz=fr*distz;
-					p.a.x+=fx/m;
-					p.a.y+=fy/m;
-					p.a.z+=fz/m;
-					q.a.x-=fx/m;
-					q.a.y-=fy/m;
-					q.a.z-=fz/m;
-					counts++;
-					u = v + vr_discontinuity*(distr-rc);
-					// end if distr<=rc
+			vij = fourepsilon * (sr6 * sr6-sr6);
+			if(onlyfirstp) f.register(distr, vij);
+			v += vij;
+			frij = 6.*fourepsilon * (2.*sr6*sr6-sr6);
+			fr=frij/distr2;
+			fx=fr*distx;
+			fy=fr*disty;
+			fz=fr*distz;
+			p.acceleration(R3 newAcc(fx/m, fy/m, fz/m));
+			q.acceleration(R3 newAcc(fx/m, fy/m, fz/m));
+			counts++;
+			u = v + vr_discontinuity*(distr-rc);
+			// end if distr<=rc
 		}
 		onlyfirstp = false;
 	}
