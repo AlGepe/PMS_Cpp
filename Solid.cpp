@@ -3,10 +3,10 @@
 Solid::Solid()
 {
 	// Whatever constructor needs
-	Data * dataClass = new Data();
+	Data * simData = new Data();
 }
 
-Solid::calculateNeighbours()
+void Solid::calculateNeighbours()
 {
 	// Create necessary variables
 	Particle iParticle;
@@ -14,7 +14,7 @@ Solid::calculateNeighbours()
 				 dist_y = .0,
 				 dist_z = .0,
 				 distSqrt = .0,
-				 radiusSqrt = dataSim->_sigma*dataSim->_sigma*(dataSim->_extraCutOff+dataSim->_cutOffRadius)*(dataSim->_extraCutOff+dataSim->_cutOffRadius);
+				 radiusSqrt = simData->_sigma*simData->_sigma*(simData->_extraCutOff+simData->_cutOffRadius)*(simData->_extraCutOff+simData->_cutOffRadius);
 
 	maxDisplacement(.0);
 
@@ -43,7 +43,7 @@ Solid::calculateNeighbours()
 	}
 }	
 
-Solid::bring2solid(double x)
+double Solid::bring2solid(double x)
 {
 	if(x > L/2)
 	{
@@ -56,7 +56,7 @@ Solid::bring2solid(double x)
 	return x;
 }
 
-Solid::gauss()
+double Solid::gauss()
 {
 	double a1 = 3.949846138,
 				 a3 = 0.252408784,
@@ -72,7 +72,7 @@ Solid::gauss()
 	return ((((a9*r2+a7)*r2+a5)*r2+a3)*r2+a1)*r;
 }
 
-Solid::ranf()
+double Solid::ranf()
 {//Until random function from library used
 	int l = 1029, 
 			c = 221591,
@@ -81,9 +81,9 @@ Solid::ranf()
 	return std::floor (seed/m);
 }
 
-Solid::nexStep(LennarJones f)
+void Solid::nexStep(LennarJones f)
 {
-	double dt = dataSim->_timeStep,
+	double dt = simData->_timeStep,
 				 tempX = .0,
 				 tempY = .0,
 				 tempZ = .0,
@@ -112,11 +112,11 @@ Solid::nexStep(LennarJones f)
 	}
 }
 
-Solid::lennardJonesValues(LennarJones f)
+void Solid::lennardJonesValues(LennarJones f)
 {
 	double u = 0,
 				 sigma = InputData.sigma,
-				 fourepsilon = 4.0*InputData.epsilon,
+				 fourepsilon = 4.0*simData.epsilon,
 				 rc = sigma*ConfigData.rC,
 				 m = InputData.mass,
 				 src = sigma/rc,
@@ -191,3 +191,72 @@ Solid::lennardJonesValues(LennarJones f)
 	}
 	energy.u(v-vc*counts)/particleSet.size();
 }
+
+void Solid::Init()
+{
+	int Nc = simData.Nc;
+	double mass = simData.mass,
+				 ro = simData.ro;
+	R3 sumVel(), // Default is (0,0,0)
+		 zeroVec();
+	L = Nc*simData.sigma * CHCKMATH => (4*mass/ro)^1./3.;
+	numParticles = 4* Nc*Nc*Nc;
+	vector<Particle> solidParticles(numParticles);
+	EneryValue energy(0., 0.);
+	cell = L/Nc;
+	tempSqrt = MATHSQRT(simData.temperature)
+
+solidParticles[0] = new Particle(); // Default constructor puts particle at ((0,0,0),(0,0,0),(0,0,0)) (x,v,a)
+R3 posInit(cell/2., cell/2., 0.);
+solidParticles[1] = new Particle(posInit, zeroVec, zeroVec);
+posInit.x(.0);
+posInit.z(cell/2.);
+solidParticles[2] = new Particle(posInit, zeroVec, zeroVec);
+posInit.x(cell/2.);
+posInit.y(.0);
+solidParticles[3] = new Particle(posInit, zeroVec, zeroVec);
+int m;
+for (int iz = 0; iz < Nc; iz++;)
+{
+	for (int iy = 0; iy < Nc; iy++;)
+	{
+		for (int ix = 0; ix < Nc; ix++;)
+		{
+			if (m > 0)
+			{
+				for (int iref = 0; iref < 4; iref++;)
+				{
+				/*
+				 * THIS DEFO NEEDS OVERLOADING OPERATORS on R3
+				 */
+					posInit.x(solidParticles[iref].position().x() + cell*ix);
+					posInit.y(solidParticles[iref].position().y() + cell*iy);
+					posInit.z(solidParticles[iref].position().z() + cell*iz);
+					solidParticles[iref+m] = new Particle(posInit, zeroVec, zeroVec);
+				} //iref
+			} //m
+			m += 4;
+		} //ix
+	} //iy
+} //iz
+
+for (auto particle : solidParticles) // Assuming overloaded operators
+{
+	particle.position(particle.position() - .5*L); // shift positions
+	R3 gauss3D(gauss(), gauss(), gauss());
+	particle.velocity(gauss3D * tempSqrt);
+  sumVel += gauss3D;
+}
+
+sumVel = sumVel/numParticles; // For BC => V_solid = 0
+
+for (auto  particle : particleSet)
+{
+	particle.velocity(particle.velocity() - sumVel); // So that Total momentum = 0
+}
+
+ // Maybe test here would be nice to ensure V_solid = 0
+ 
+/*
+ * Continues with copying line 91 from Init.test.java
+ */
