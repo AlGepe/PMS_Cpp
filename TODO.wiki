@@ -14,5 +14,16 @@
 	* [ ] PMS.java
 	* [X] R3.java
 	* [ ] SimulationGUI.java
-	* [ ] State.java (Solid.cpp)
-				* [ ] NeighList
+	* [o] State.java (Solid.cpp)
+				* [X] NeighList
+				* [X] Gauss
+				* [X] ranf
+				* [X] nextStep
+				* [X] bind
+				* [ ] LennardJones
+				* [ ] takeSample
+				* [ ] Init
+				* [ ] getSampleParticle
+				* [ ] Setters
+				* [ ] Getters
+				* [ ] 
