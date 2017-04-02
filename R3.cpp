@@ -20,6 +20,27 @@ R3 R3::operator - (R3 toAdd)
 	return result;
 }
 
+void R3::operator += (R3 toAdd)
+{
+	_z += toAdd.z();
+	_y += toAdd.y();
+	_x += toAdd.x();
+}
+
+void R3::operator -= (R3 toAdd)
+{
+	_z -= toAdd.z();
+	_y -= toAdd.y();
+	_x -= toAdd.x();
+}
+
+void R3::operator *= (double times)
+{
+	_z *= times;
+	_y *= times;
+	_z *= times;
+}
+
 // Copy constructor
 R3::R3(R3& sourceObject)
 {
