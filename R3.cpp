@@ -20,6 +20,18 @@ R3 R3::operator - (R3 toAdd)
 	return result;
 }
 
+R3 R3::operator * (R3 timesVec)
+{
+	R3 result(_z * timesVec.z(), _y * timesVec.y(), _x * timesVec.x());
+	return result;
+}
+
+R3 R3::operator / (R3 timesVec)
+{
+	R3 result(_z / timesVec.z(), _y / timesVec.y(), _x / timesVec.x());
+	return result;
+}
+
 void R3::operator += (R3 toAdd)
 {
 	_z += toAdd.z();
@@ -34,11 +46,70 @@ void R3::operator -= (R3 toAdd)
 	_x -= toAdd.x();
 }
 
+void R3::operator *= (R3 times)
+{
+	_z *= times.z();
+	_y *= times.y();
+	_x *= times.x();
+}
+
+void R3::operator /= (R3 times)
+{
+	_z /= times.z();
+	_y /= times.y();
+	_x /= times.x();
+}
+
+R3 R3::operator + (double toAdd)
+{
+  R3 result(_x + toAdd, _y + toAdd,  _z + toAdd;
+	return result;
+}
+
+R3 R3::operator - (double toAdd)
+{
+  R3 result(_x - toAdd, _y - toAdd,  _z - toAdd);
+	return result;
+}
+
+R3 R3::operator * (double timesVec)
+{
+	R3 double(_z * timesVec, _y * timesVec, _x * timesVec);
+	return result;
+}
+
+R3 R3::operator / (double timesVec)
+{
+	R3 result(_z / timesVec, _y / timesVec, _x / timesVec);
+	return result;
+}
+
+void R3::operator += (double toAdd)
+{
+	_z += toAdd;
+	_y += toAdd;
+	_x += toAdd;
+}
+
+void R3::operator -= (double toAdd)
+{
+	_z -= toAdd;
+	_y -= toAdd;
+	_x -= toAdd;
+}
+
 void R3::operator *= (double times)
 {
 	_z *= times;
 	_y *= times;
-	_z *= times;
+	_x *= times;
+}
+
+void R3::operator /= (double times)
+{
+	_z /= times;
+	_y /= times;
+	_x /= times;
 }
 
 // Copy constructor

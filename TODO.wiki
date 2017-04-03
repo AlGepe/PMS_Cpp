@@ -22,11 +22,11 @@
 				* [X] bind
 				* [X] LennardJones
 				* [ ] takeSample
-				* [.] Init
+				* [o] Init
 							* [X] Create solid
-							* [ ] Overload operators for R3
-							* [ ] The Rest
+							* [X] Overload operators for R3 (+,-,*,/,+=,-=,*=,/=)
+							* [ ] Initialize sampleParticles
+				* [ ] Figure out what to do with sampleParticles and other things
 				* [ ] getSampleParticle
 				* [ ] Setters
 				* [ ] Getters
-				* [ ] 

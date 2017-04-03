@@ -196,6 +196,7 @@ void Solid::Init()
 {
 	int Nc = simData.Nc;
 	double mass = simData.mass,
+				 tempSqrt = MATHSQRT(simData.temperature),
 				 ro = simData.ro;
 	R3 sumVel(), // Default is (0,0,0)
 		 zeroVec();
@@ -204,59 +205,58 @@ void Solid::Init()
 	vector<Particle> solidParticles(numParticles);
 	EneryValue energy(0., 0.);
 	cell = L/Nc;
-	tempSqrt = MATHSQRT(simData.temperature)
-
-solidParticles[0] = new Particle(); // Default constructor puts particle at ((0,0,0),(0,0,0),(0,0,0)) (x,v,a)
-R3 posInit(cell/2., cell/2., 0.);
-solidParticles[1] = new Particle(posInit, zeroVec, zeroVec);
-posInit.x(.0);
-posInit.z(cell/2.);
-solidParticles[2] = new Particle(posInit, zeroVec, zeroVec);
-posInit.x(cell/2.);
-posInit.y(.0);
-solidParticles[3] = new Particle(posInit, zeroVec, zeroVec);
-int m;
-for (int iz = 0; iz < Nc; iz++;)
-{
-	for (int iy = 0; iy < Nc; iy++;)
-	{
-		for (int ix = 0; ix < Nc; ix++;)
+	solidParticles[0] = Particle(); // Default constructor puts particle at ((0,0,0),(0,0,0),(0,0,0)) (x,v,a)
+	R3 posInit(cell/2., cell/2., 0.);
+	solidParticles[1] = Particle(posInit, zeroVec, zeroVec);
+	posInit.x(.0);
+	posInit.z(cell/2.);
+	solidParticles[2] = Particle(posInit, zeroVec, zeroVec);
+	posInit.x(cell/2.);
+	posInit.y(.0);
+	solidParticles[3] = Particle(posInit, zeroVec, zeroVec);
+	int m;
+	for (int iz = 0; iz < Nc; iz++;) 
+	{ // Particle position initialization
+		for (int iy = 0; iy < Nc; iy++;)
 		{
-			if (m > 0)
+			for (int ix = 0; ix < Nc; ix++;)
 			{
-				for (int iref = 0; iref < 4; iref++;)
+				if (m > 0)
 				{
-				/*
-				 * THIS DEFO NEEDS OVERLOADING OPERATORS on R3
-				 */
-					posInit.x(solidParticles[iref].position().x() + cell*ix);
-					posInit.y(solidParticles[iref].position().y() + cell*iy);
-					posInit.z(solidParticles[iref].position().z() + cell*iz);
-					solidParticles[iref+m] = new Particle(posInit, zeroVec, zeroVec);
-				} //iref
-			} //m
-			m += 4;
-		} //ix
-	} //iy
-} //iz
+					for (int iref = 0; iref < 4; iref++;)
+					{
+						/*
+						 * THIS DEFO NEEDS OVERLOADING OPERATORS on R3
+						 */
+						posInit = solidParticles[iref].position() + cell*ix);
+						solidParticles[iref+m] = Particle(posInit, zeroVec, zeroVec);
+					} //iref
+				} //m
+				m += 4;
+			} //ix
+		} //iy
+	} //iz
 
-for (auto particle : solidParticles) // Assuming overloaded operators
-{
-	particle.position(particle.position() - .5*L); // shift positions
-	R3 gauss3D(gauss(), gauss(), gauss());
-	particle.velocity(gauss3D * tempSqrt);
-  sumVel += gauss3D;
+	for (auto particle : solidParticles) // Assuming overloaded operators
+	{
+		particle.position(particle.position() - .5*L); // shift positions
+		R3 gauss3D(gauss(), gauss(), gauss());
+		particle.velocity(gauss3D * tempSqrt);
+		sumVel += gauss3D;
+	}
+
+	sumVel = sumVel/numParticles; // For BC => V_solid = 0
+
+	for (auto  particle : particleSet)
+	{
+		particle.velocity(particle.velocity() - sumVel); // So that Total momentum = 0
+	}
+
+	// Maybe test here would be nice to ensure V_solid = 0
+
+	/*
+	 * Continues with copying line 91 from Init.test.java
+	 HERE TO FIGURE OUT HOW TO INITIALIZE sample
+
+	 */
 }
-
-sumVel = sumVel/numParticles; // For BC => V_solid = 0
-
-for (auto  particle : particleSet)
-{
-	particle.velocity(particle.velocity() - sumVel); // So that Total momentum = 0
-}
-
- // Maybe test here would be nice to ensure V_solid = 0
- 
-/*
- * Continues with copying line 91 from Init.test.java
- */
