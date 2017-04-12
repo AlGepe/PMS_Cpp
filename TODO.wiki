@@ -1,19 +1,19 @@
  = Archives to translate to cpp =
 
-	* [ ] ConfigData.java
-	* [ ] ConfigurationFile.txt
-	* [X] EnergyValue.java
+	* [ ] SimulationGUI.java
 	* [ ] Escritura.java
 	* [ ] InputData.java
 	* [ ] InputData.txt
 	* [ ] Lectura.java
-	* [ ] LennarJones.java
 	* [ ] Mensaje.java
 	* [ ] Menu.java
 	* [X] Particle.java
 	* [ ] PMS.java
+	* [ ] ConfigData.java
+	* [ ] ConfigurationFile.txt
+	* [X] EnergyValue.java
 	* [X] R3.java
-	* [ ] SimulationGUI.java
+	* [ ] LennarJones.java
 	* [o] State.java (Solid.cpp)
 				* [X] NeighList
 				* [X] Gauss
