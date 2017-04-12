@@ -1,6 +1,5 @@
 #ifndef DATA_H
 #define DATA.H
-#endif
 class Data
 {
 	public:
@@ -23,3 +22,4 @@ class Data
 
 
 };
+#endif

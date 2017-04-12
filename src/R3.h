@@ -1,6 +1,5 @@
 #ifndef R3_H
 #define R3_H
-#endif
 class R3 {
 	private:
 
@@ -27,7 +26,18 @@ class R3 {
 
 		// Operators
 		R3 operator + (R3 toAdd);
-		R3 operator += (R3 toAdd);
+		R3 operator + (double toAdd);
+		void operator += (R3 toAdd);
 		R3 operator - (R3 toSubstract);
-		R3 operator -= (R3 toSubstract);
+		R3 operator - (double toSubstract);
+		void operator -= (R3 toAdd);
+		R3 operator * (R3 timesVec);
+		R3 operator * (double times);
+		void operator *= (R3 timesVec);
+		void operator *= (double times);
+		R3 operator / (R3 timesVec);
+		R3 operator / (double times);
+		void operator /= (R3 timesVec);
+		void operator /= (double times);
 };
+#endif

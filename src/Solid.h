@@ -1,22 +1,21 @@
 #ifndef SOLID_H
 #define SOLID_H
-#endif
 #include <vector>
-#include "EneryValue.h"
+#include "EnergyValue.h"
 #include "Particle.h"
 #include "LennarJones.h"
 
 class Solid{
 	private: 
-		int _numParticles;
-		int _numbRecalcNeigh;
+		int _numParticles,
+				_seed,
+				_numbRecalcNeigh;
 		std::vector<Particle> _particleSample,
 										 _particleSet,
 										 _sampleInScope;
-		double _L;
-		double _maxDisplacement;
+		double _L,
+					 _maxDisplacement;
 		EnergyValue _energySolid;
-		int _seed;
 			
 	public:
 		//Constructor
@@ -41,13 +40,15 @@ class Solid{
 		EnergyValue energySolid();
 		int seed();
 		
-		//getters
-		void numParticles();
-		void numbRecalcNeigh();
-		void particleSample(),
-		void particleSet(),
-		void sampleInScope();
-		void L();
-		void maxDisplacement();
-		void energySolid();
-		void seed();
+		//setters
+		void numParticles(int newNumb);
+		void numbRecalcNeigh(int newRecalc);
+		void particleSample(std::vector<Particle> newSample);
+		void particleSet(std::vector<Particle> newSet);
+		void sampleInScope(std::vector<Particle> newSample);
+		void L(double newL);
+		void maxDisplacement(int newMaxDisp);
+		void energySolid(EnergyValue newEnergy);
+		void seed(int newSeed);
+};
+#endif

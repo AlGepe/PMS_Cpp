@@ -1,15 +1,14 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
-#endif
 #include "R3.h"
 #include <vector>
 
 class Particle
 {
 	private:
-		R3 * _position;
-		R3 * _velocity;
-		R3 * _acceleration;
+		R3  _position;
+		R3  _velocity;
+		R3  _acceleration;
 
 		std::vector<Particle> _vecinity;
 
@@ -35,3 +34,4 @@ class Particle
 		R3 * acceleration();
 		std::vector<Particle> vecinity();
 };
+#endif

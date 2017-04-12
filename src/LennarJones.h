@@ -1,6 +1,5 @@
 #ifndef LENNARDJONES_H
 #define LENNARDJONES_H
-#endif
 #include <R2.h>
 #include <string>
 #include <deque>
@@ -15,3 +14,4 @@ class LennarJones
 		void saveInList(double distance, double potential);
 		void printToFile(std::string fileName);
 	};
+#endif

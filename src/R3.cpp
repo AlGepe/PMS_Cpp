@@ -1,7 +1,7 @@
 #include <R3.h>
 
 // Constructor
-R3::R3(double _x, double _y, double _z) :
+R3::R3(double x, double y, double z) :
 	_x(x), 
 	_y(y),
 	_z(z)

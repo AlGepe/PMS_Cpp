@@ -1,6 +1,5 @@
 #ifndef R2_H
 #define R2_H
-#endif
 class R2
 {
 	private:
@@ -13,3 +12,4 @@ class R2
 		void x(double newX);
 		void y(double newY);
 };
+#endif

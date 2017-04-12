@@ -1,9 +1,9 @@
 #include <Particle.h>
 
-Particle::Particle():
+Particle::Particle() :
 	_position = new R3(.0, .0, .0),
 	_velocity = new R3(.0, .0, .0),
-	_acceleration = new R3(.0, .0, .0),
+	_acceleration = new R3(.0, .0, .0)
 	//_vecinity
 {}
 
@@ -23,22 +23,22 @@ Particle::clearVecinity()
 /*
  * Getters
  */
-Particle::vecinity()
+std::vector<Particle> Particle::vecinity()
 {
 	return _vecinity;
 }
 
-Particle::position()
+R3 Particle::position()
 {
 	return _position;
 }
 
-Particle::velocity()
+R3 Particle::velocity()
 {
 	return _velocity;
 }
 
-Particle::acceleration()
+R3 Particle::acceleration()
 {
 	return _acceleration;
 }
@@ -46,22 +46,22 @@ Particle::acceleration()
 /*
  * Setters
  */
-Particle::vecinity(vector<Particle> newNeighbours)
+void Particle::vecinity(vector<Particle> newNeighbours)
 {
 	_vecinity = newNeighbours;
 }
 
-Particle::position(R3 newPos)
+void Particle::position(R3 newPos)
 {
 	_position = newPos;
 }
 
-Particle::velocity(R3 newVel)
+void Particle::velocity(R3 newVel)
 {
 	_velocity = newVel;
 }
 
-Particle::acceleration(R3 newAcc)
+void Particle::acceleration(R3 newAcc)
 {
 	_acceleration = newAcc;
 }
