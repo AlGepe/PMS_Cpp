@@ -1,21 +1,21 @@
 #include <Particle.h>
 
-Particle::Particle() :
-	_position = new R3(.0, .0, .0),
-	_velocity = new R3(.0, .0, .0),
-	_acceleration = new R3(.0, .0, .0)
-	//_vecinity
-{}
+Particle::Particle()
+{
+	_position = R3(0, 0, 0);
+	_velocity = R3(0, 0, 0);
+	_acceleration = R3(0, 0, 0);
+}
 
 Particle::Particle(R3 position, R3 velocity, R3 acceleration):
 	_position(position),
 	_velocity(velocity),
-	_acceleration(acceleration),
+	_acceleration(acceleration)
 	//_vecinity
 {}
 
 // should take 5mind to errradicate this aberration
-Particle::clearVecinity()
+void Particle::clearVecinity()
 {
 	_vecinity.clear();
 }
@@ -46,7 +46,7 @@ R3 Particle::acceleration()
 /*
  * Setters
  */
-void Particle::vecinity(vector<Particle> newNeighbours)
+void Particle::vecinity(std::vector<Particle> newNeighbours)
 {
 	_vecinity = newNeighbours;
 }

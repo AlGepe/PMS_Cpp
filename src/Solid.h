@@ -1,12 +1,14 @@
 #ifndef SOLID_H
 #define SOLID_H
 #include <vector>
+#include "Data.h"
 #include "EnergyValue.h"
 #include "Particle.h"
 #include "LennarJones.h"
 
 class Solid{
 	private: 
+		Data * simData;
 		int _numParticles,
 				_seed,
 				_numbRecalcNeigh;
@@ -22,11 +24,11 @@ class Solid{
 		Solid();
 
 		void Init();
-		void ranf();
-		void gauss();
+		double ranf();
+		double gauss();
 		void calculateNeighbours();
 		void takeSample();
-		double bind();
+		double bring2solid();
 		void nexStep(LennarJones f);
 		void lennardJonesValues(LennarJones f);
 		//setters

@@ -29,9 +29,9 @@ class Particle
 		void acceleration(double accX, double accY,double accZ);
 		*/
 		//Getters
-		R3 * position();
-		R3 * velocity();
-		R3 * acceleration();
+		R3 position();
+		R3 velocity();
+		R3 acceleration();
 		std::vector<Particle> vecinity();
 };
 #endif

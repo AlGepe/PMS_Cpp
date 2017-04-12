@@ -3,7 +3,7 @@
 Solid::Solid()
 {
 	// Whatever constructor needs
-	Data * simData = new Data();
+	simData = new Data();
 }
 
 void Solid::calculateNeighbours()
@@ -18,26 +18,28 @@ void Solid::calculateNeighbours()
 
 	maxDisplacement(.0);
 
-	for (int i = .0; i < particleSet.size()-1; i++)//recheck syntaxis
+	for (int i = .0; i < _particleSet.size()-1; i++)//recheck syntaxis
 	{// Last particle does not have neighbours as its already a neighbour of all possible
-		iParticle = particleSet[i];
-		iParticle->clearVecinitempY();
-		for (int j = i+1; j < particleSet.size(); j++)
+		Particle tParticle = _particleSet[i];
+		Particle * iParticle  = &tParticle;
+		iParticle->clearVecinity();
+		for (int j = i+1; j < _particleSet.size(); j++)
 		{ // All particles nor already checked
-			Particle * jParticle = * particleSet[j];
+			Particle tempParticle = _particleSet[j];
+			Particle * jParticle = &tempParticle;
 			// Calculate distances
-			dist_x = iParticle->position()->x() - jParticle->position()->x();
-			dist_y = iParticle->position()->y() - jParticle->position()->y();
-			dist_z = iParticle->position()->z() - jParticle->position()->z();
+			dist_x = iParticle->position().x() - jParticle->position().x();
+			dist_y = iParticle->position().y() - jParticle->position().y();
+			dist_z = iParticle->position().z() - jParticle->position().z();
 			// BC, no-edges
-			dist_y = dist_y - L * std::floor(dist_y/L);
-			dist_y = dist_x - L * std::floor(dist_x/L);
-			dist_z = dist_z - L * std::floor(dist_z/L);
+			dist_y = dist_y - _L * std::floor(dist_y/L);
+			dist_y = dist_x - _L * std::floor(dist_x/L);
+			dist_z = dist_z - _L * std::floor(dist_z/L);
 
 			distSqrt = dist_x*dist_x + dist_y*dist_y + dist_z*dist_z;
 			if(distSqrt < radiusSqrt)
 			{// If closer than cut-off + margin, it's neighbour
-				iParticle->vecinitempY()->append(jParticle);
+				iParticle->vecinity().push_back(&jParticle);
 			}
 		}
 	}
@@ -77,8 +79,8 @@ double Solid::ranf()
 	int l = 1029, 
 			c = 221591,
 			m = 1048576;
-	seed = (seed*l+c)%m;
-	return std::floor (seed/m);
+	_seed = (_seed*l+c)%m;
+	return std::floor (_seed/m);
 }
 
 void Solid::nexStep(LennarJones f)
@@ -88,37 +90,40 @@ void Solid::nexStep(LennarJones f)
 				 tempY = .0,
 				 tempZ = .0,
 				 k = .0;
-	for(auto particle : particleSet)
+	for(auto particle : _particleSet)
 	{
 		// Great place to test operator overload
-		tempX = particle.velocitempY().x() * dt + .5*particle.acceleration().x()*dt*dt;
+		tempX = particle.velocity().x() * dt + .5*particle.acceleration().x()*dt*dt;
 		tempY = particle.velocity().y() * dt + .5*particle.acceleration().y()*dt*dt;
-		tempZ = particle.velocitz().z() * dt + .5*particle.acceleration().z()*dt*dt;
+		tempZ = particle.velocity().z() * dt + .5*particle.acceleration().z()*dt*dt;
 		double displacement = MATHSQRT (LOOK IT UP);
 
 		// change to binary operator
-		if (maxDisplacement < displacement) 
+		if (_maxDisplacement < displacement) 
 		{ 
-			maxDisplacement = displacement; 
+			_maxDisplacement = displacement; 
 		}
 
-		particle.position(R3 newPositions(tempX, tempY, tempZ);
+		R3 tempVector(tempX, tempY, tempZ);
+		particle.position(tempVector);
 
-		tempX = particle.velocitempY().x() + .5 particle.acceleration.x();
-		tempY = particle.velocitempY().y() + .5 particle.acceleration.y();
-		tempZ = particle.velocitempY().z() + .5 particle.acceleration.z();
+		tempVector = particle.acceleration() * .5;
+		tempVector = tempVector + particle.velocity();
+		// tempX = particle.velocity().x() + .5 * particle.acceleration().x();
+		// tempY = particle.velocity().y() + .5 * particle.acceleration().y();
+		// tempZ = particle.velocity().z() + .5 * particle.acceleration().z();
 	
-		particle.velocity(R3 newVelocities(tempX, tempY, tempZ));
+		particle.velocity(tempVector);
 	}
 }
 
 void Solid::lennardJonesValues(LennarJones f)
 {
 	double u = 0,
-				 sigma = InputData.sigma,
-				 fourepsilon = 4.0*simData.epsilon,
-				 rc = sigma*ConfigData.rC,
-				 m = InputData.mass,
+				 sigma = simData->_sigma,
+				 fourepsilon = 4.0*simData->_epsilon,
+				 rc = sigma*simData->_cutOffRadius,
+				 m = simData->_mass,
 				 src = sigma/rc,
 				 src2 = src*src,
 				 src6 = src2*src2*src2,
@@ -144,9 +149,9 @@ void Solid::lennardJonesValues(LennarJones f)
 				 fy,
 				 fz,
 				 counts = 0;
-	for (auto p : particleSet) p.acceleration(R3 zero(0,0,0));
-	boolean onlyfirstp = true;
-	for (auto p	: particleSet)
+	for (auto p : _particleSet) p.acceleration(R3 zero(0,0,0));
+	bool  onlyfirstp = true;
+	for (auto p	: _particleSet)
 	{
 		for (auto q : p.vecinity())
 		{
@@ -155,9 +160,9 @@ void Solid::lennardJonesValues(LennarJones f)
 			distz = p.position().z()-q.position().z();
 
 			// BC "infinite" lattice
-			distx = distx-L*std::floor(distx/L);
-			disty = disty-L*std::floor(disty/L);
-			distz = distz-L*std::floor(distz/L);
+			distx = distx-_L*std::floor(distx/_L);
+			disty = disty-_L*std::floor(disty/_L);
+			distz = distz-_L*std::floor(distz/_L);
 
 			distx2 = distx*distx;
 			disty2 = disty*disty;
@@ -198,8 +203,8 @@ void Solid::Init()
 	double mass = simData.mass,
 				 tempSqrt = MATHSQRT(simData.temperature),
 				 ro = simData.ro;
-	R3 sumVel(), // Default is (0,0,0)
-		 zeroVec();
+	R3 sumVel(); // Default is (0,0,0)
+	R3 zeroVec();
 	L = Nc*simData.sigma * CHCKMATH => (4*mass/ro)^1./3.;
 	numParticles = 4* Nc*Nc*Nc;
 	vector<Particle> solidParticles(numParticles);
