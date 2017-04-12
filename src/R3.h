@@ -1,3 +1,6 @@
+#ifndef R3_H
+#define R3_H
+#endif
 class R3 {
 	private:
 
@@ -27,4 +30,4 @@ class R3 {
 		R3 operator += (R3 toAdd);
 		R3 operator - (R3 toSubstract);
 		R3 operator -= (R3 toSubstract);
-}
+};

@@ -1,4 +1,7 @@
-#include <R3>
+#ifndef PARTICLE_H
+#define PARTICLE_H
+#endif
+#include "R3.h"
 #include <vector>
 
 class Particle
@@ -8,7 +11,7 @@ class Particle
 		R3 * _velocity;
 		R3 * _acceleration;
 
-		std::vector<Particle> vecinity;
+		std::vector<Particle> _vecinity;
 
 	// Maybe needs a copy constructor? or copy method? TBD
 	
@@ -19,7 +22,7 @@ class Particle
 		void position(R3 newPos);
 		void velocity(R3 newVel);
 		void acceleration(R3 newAcc);
-		void vecinity(vector<Particle> newNeighbours);
+		void vecinity(std::vector<Particle> newNeighbours);
 		void clearVecinity();
 		/* Not sure if needed
 		void position(double posX, double posY,double posZ);
@@ -31,4 +34,4 @@ class Particle
 		R3 * velocity();
 		R3 * acceleration();
 		std::vector<Particle> vecinity();
-
+};

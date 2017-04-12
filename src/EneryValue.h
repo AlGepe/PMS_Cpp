@@ -1,3 +1,6 @@
+#ifndef ENERGYVALUE_H
+#define ENERGYVALUE_H
+#endif
 class EnergyValue
 {
 	private:
@@ -9,3 +12,4 @@ class EnergyValue
 		void k(double newK);
 		double u();
 		double k();
+};
