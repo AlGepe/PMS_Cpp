@@ -1,6 +1,6 @@
-#include <R2.h>
+#include "R2.h"
 
-R2::R2(x,y) :
+R2::R2(double x, double y) :
 	_x(x),
 	_y(y)
 {}
